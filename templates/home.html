@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <title>Home</title>
+    <style>
+        .custom-checkbox input[type="checkbox"] {
+            display: none; /* Hide the default checkbox */
+        }
+
+        .custom-checkbox .plus {
+            font-size: 20px; /* Adjust the size of the plus sign */
+            color: black; /* Color of the plus sign */
+            cursor: pointer; /* Show pointer cursor on hover */
+        }
+
+        .custom-checkbox input[type="checkbox"]:checked + .plus {
+            color: grey; /* Color of the plus sign should not change when checkbox is checked */
+        }
+    </style>
+    <script>
+        function submitForm() {
+            document.getElementById("searchForm").submit(); // Submit the form
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"> 
+            <img src="https://t3.ftcdn.net/jpg/02/93/53/16/360_F_293531639_RTec7iO5kBTQRGDYQBXdaoWQY9hY2KpJ.jpg" alt="Home Nexus Logo"> Home Nexus</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./favorites">Favorites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./calc">Mortgage Calculator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./settings">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./contact">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./login">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5" id="homeForm">
+        <h1 class="outlined-text">Welcome "Home"!</h1>
+        <p class="outlined-text">Congratulations, {{ username }}! You have successfully logged in.</p>
+
+        <form action="/search" method="post">
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="min_price"class="outlined-text"> Min Listing Price:</label>
+                    <input type="number" class="form-control" id="min_price" name="min_price" placeholder="100000">
+                </div>
+                <div class="col">
+                    <label for="max_price" class="outlined-text" >Max Listing Price:</label>
+                    <input type="number" class="form-control" id="max_price" name="max_price" placeholder="100000">
+                </div>
+
+                <div class="col">
+                    <label for="beds" class="outlined-text" >Beds:</label>
+                    <select class="form-control" id="beds" name="beds">
+                        <option value="Any">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label for="baths" class="outlined-text" >Baths:</label>
+                    <select class="form-control" id="baths" name="baths">
+                        <option value="Any">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="min_year_built" class="outlined-text" >Min Year Built:</label>
+                    <input type="number" class="form-control" id="min_year_built" name="min_year_built"
+                        placeholder="XXXX">
+                </div>
+                <div class="col">
+                    <label for="max_year_built" class="outlined-text" >Max Year Built:</label>
+                    <input type="number" class="form-control" id="max_year_built" name="max_year_built"
+                        placeholder="XXXX">
+                </div>
+
+                <div class="col">
+                    <label for="square_ft" class="outlined-text" >Square Ft:</label>
+                    <select class="form-control" id="square_ft" name="square_ft">
+                        <option value="Any">Any</option>
+                        <option value="750">750+ sqft</option>
+                        <option value="1000">1000+ sqft</option>
+                        <option value="1250">1250+ sqft</option>
+                        <option value="1500">1500+ sqft</option>
+                        <option value="1750">1750+ sqft</option>
+                        <option value="2000">2000+ sqft</option>
+                        <option value="2250">2250+ sqft</option>
+                        <option value="2500">2500+ sqft</option>
+                        <option value="2750">2750+ sqft</option>
+                        <option value="3000">3000+ sqft</option>
+                        <option value="3250">3250+ sqft</option>
+                        <option value="3500">3500+ sqft</option>
+                        <option value="3750">3750+ sqft</option>
+                        <option value="3750">3750+ sqft</option>
+                        <option value="4000">4000+ sqft</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label for="days_on_site" class="outlined-text" >Days on Site:</label>
+                    <select class="form-control" id="days_on_site" name="days_on_site">
+                        <option value="Any">Any</option>
+                        <option value="1">Less than a month</option>
+                        <option value="3">Less than 3 months</option>
+                        <option value="6">Less than 6 months</option>
+                        <option value="9">Less than 9 months</option>
+                        <option value="12">Less than a year</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label for="status" class="outlined-text" >Status:</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="Any">Any</option>
+                        <option value="NEW LISTING">NEW LISTING</option>
+                        <option value="Active">Active</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+            </div>
+
+            <br><br>
+
+            <div class="form-row">
+                <label for="advanceSearch" class="outlined-text" >Advanced Search:</label>
+                <input type="text" class="form-control" id="advanceSearch" name="advanceSearch" placeholder="Search">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mt-5">
+        <form id="searchForm" action="/addToFav" method="post">
+            <ul>
+                {% for property in random_properties %}
+                <li class="row">
+                    <div class="col-md-4">
+                        <img src="{{ property['House Image'] }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label><strong>{{ property['Address'] }}</strong></label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" value="{{ property['ID'] }}" name="property_id" onchange="submitForm()">
+                            <span class="plus">+</span>
+                        </label>
+                        <p>Status: {{ property['Status'] }}</p>
+                        <p>Listing Price: ${{ property['Listing Price'] }}</p>
+                        <p>Square Feet: {{ property['Square Ft'] }} sqft</p>
+                        <p>Year Built: {{ property['Year Built'] }}</p>
+                        <p>Beds: {{ property['Beds'] }}</p>
+                        <p>Baths: {{ property['Baths'] }}</p>
+                        <p>Days on Site: {{ property['Days on Site'] }}</p>
+                        <p><a href="{{ property['URL'] }}">View Listing</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <iframe src="{{ property['Google Map Image'] }}"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </li>
+                {% else %}
+                <li>No property added.</li>
+                {% endfor %}
+            </ul>
+        </form>
+    </div>
+</body>
+
+</html>

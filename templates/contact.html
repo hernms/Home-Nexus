@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <title>Contact Us</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="https://t3.ftcdn.net/jpg/02/93/53/16/360_F_293531639_RTec7iO5kBTQRGDYQBXdaoWQY9hY2KpJ.jpg"
+                alt="Home Nexus Logo"> Home Nexus</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="./home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./favorites">Favorites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./calc">Mortgage Calculator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./settings">Settings</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="./contact">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./login">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Contact Information</h2>
+                <p>Email: noreply.homenexus@gmail.com</p>
+                <p>Phone: 123-456-7890</p>
+                <p>Address: 123 Street, City, Country</p>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <!-- Team Member 1 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://secure.gravatar.com/avatar/2e09f566e1c550480a72a8fa81b8f306ee789e554964ba0bd651264934f48337?s=800&d=identicon" class="card-img-top" alt="Team Member 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Ali Haider</h5>
+                        <p class="card-text">Role: Project Manager</p>
+                        <p class="card-text">Email: haidera@miamioh.edu</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://secure.gravatar.com/avatar/f88c20396a89fd92b537e2cce7c136fd9e8c08178bada05a9c9555923e43af3f?s=800&d=identicon" class="card-img-top" alt="Team Member 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Fuaad Maricar</h5>
+                        <p class="card-text">Role: Developer</p>
+                        <p class="card-text">Email: maricafm@miamioh.edu</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://secure.gravatar.com/avatar/b9c85a2cac6df3e3a5203e168921ee323db80c0d41d286bf481897d9f0806c8b?s=800&d=identicon" class="card-img-top" alt="Team Member 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Ashfak Siam</h5>
+                        <p class="card-text">Role: Developer</p>
+                        <p class="card-text">Email: siamk@miamioh.edu</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://gitlab.csi.miamioh.edu/uploads/-/system/user/avatar/2437/avatar.png" class="card-img-top" alt="Team Member 4">
+                    <div class="card-body">
+                        <h5 class="card-title">Martin Hern</h5>
+                        <p class="card-text">Role: Technical Manager</p>
+                        <p class="card-text">Email: hernms@miamioh.edu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"></script>
+</body>
+
+</html>

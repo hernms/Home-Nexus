@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="{{ url_for('static', filename='login.css') }}" rel="stylesheet">
+  <title>Home Nexus</title>
+</head>
+
+<body>
+  <div class="hero">
+    <div class="form-box">
+      <div class="button-box">
+        <div id="btn"></div>
+        <button type="button" class="toggle-btn" onclick="login()">Login</button>
+        <button type="button" class="toggle-btn" onclick="signup()">Sign Up</button>
+      </div>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+        <div class="message">{{ message }}</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <form id="login" class="input-group" action="/login" method="post">
+        <input type="text" id="username" name="username" class="input-field" placeholder="Username" required>
+        <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
+        <!--<input type="checkbox" class="check-box"><span>Remember Password</span>-->
+        <input type="submit" class="submit-btn" value="Login">
+      </form>
+
+      <form id="signup" class="input-group" action="/signup" method="post">
+        <input type="text" id="username" name="username" class="input-field" placeholder="Username" required>
+        <input type="password" id="password1" name="password1" class="input-field" placeholder="Password" required>
+        <input type="password" id="password2" name="password2" class="input-field" placeholder="Re-Type Password" required>
+        <!--<input type="checkbox" class="check-box"><span>I agree to the terms and conditions</span>-->
+        <input type="submit" class="submit-btn" value="Sign Up">
+      </form>
+    </div>
+  </div>
+
+  <script>
+    var x = document.getElementById("login");
+    var y = document.getElementById("signup");
+    var z = document.getElementById("btn");
+
+    function signup() {
+      x.style.left = "-400px";
+      y.style.left = "50px";
+      z.style.left = "110px";
+    }
+
+    function login() {
+      x.style.left = "50px";
+      y.style.left = "450px";
+      z.style.left = "0px";
+    }
+  </script>
+</body>
+<!--
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="message">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form action="/login" method="post">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br><br>
+      <input type="submit" value="Login">
+    </form>
+  </div>
+</body>
+-->
+
+</html>

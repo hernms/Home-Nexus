@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+#homeForm{
+    background-image: url("https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+strong {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    /*display: flex;*/
+    flex-direction: column;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.col-md-4 {
+    flex: 1;
+    text-align: center;
+}
+
+img {
+    max-width: 300px;
+    max-height: 300px;
+    height: auto;
+}
+
+iframe {
+    height: 300px;
+    width: 300px;
+}
+
+.outlined-text {
+    color:  white;
+    text-shadow: 
+        -1px -1px 0 #000,  
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000; 
+}
+
+.navbar-brand img {
+    width: 100px; 
+    height: auto; 
+    margin-right: 10px; 
+}
