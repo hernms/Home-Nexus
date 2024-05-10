@@ -23,6 +23,7 @@ Installation:
     - pip install flask
     - pip install flask_sqlalchemy
 - you should now be able to run start.py
+    - python .\start.py
 
 Usage:
 - Navigate to the webpage after running start.py and clicking on http://localhost:5000/
