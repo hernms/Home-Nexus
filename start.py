@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import pandas as pd
@@ -10,13 +10,28 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///real_estate_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-CSV_FILE = 'instance/properties.csv'
 
 class Login(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
-    favorites = db.Column(db.String, nullable=True)
+    favorites = db.Column(db.String(255), nullable=True)
+
+class Properties(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Address = db.Column(db.String(255))
+    Status = db.Column(db.String(255))
+    ListingPrice = db.Column(db.Float)
+    SquareFt = db.Column(db.Integer)
+    YearBuilt = db.Column(db.Integer)
+    Beds = db.Column(db.Float)
+    Baths = db.Column(db.Float)
+    DaysOnSite = db.Column(db.Integer)
+    Latitude = db.Column(db.String(255))
+    Longitude = db.Column(db.String(255))
+    URL = db.Column(db.String(255))
+    HouseImage = db.Column(db.String(255))
+    GoogleMapImage = db.Column(db.String(255))
     
 @app.route('/')
 def start():
@@ -68,23 +83,31 @@ def signup():
 @app.route('/home')
 def home():
     username = session.get('username')
-    
-    # Generate an array with 5 random numbers between 1 and 100
-    # Set to store unique random numbers
-    random_numbers_set = set()
 
-    # Generate unique random numbers until the set contains 5 elements
-    while len(random_numbers_set) < 5:
-        random_numbers_set.add(random.randint(1, 100))
-    # Convert the set to a list
-    random_id = list(random_numbers_set)
-    
+    # Generate an array with 5 random numbers between 1 and the maximum ID in the Properties table
+    max_id = db.session.query(db.func.max(Properties.id)).scalar()
+    random_id = random.sample(range(1, max_id + 1), 5)
+
     random_properties = []
-    property_data = pd.read_csv(CSV_FILE)
     for property_id in random_id:
-        filtered_data = property_data[property_data['ID'] == int(property_id)]
-        if not filtered_data.empty:  # Check if any property matches the ID
-            random_properties.extend(filtered_data.to_dict(orient='records'))
+        property = db.session.get(Properties, property_id)
+        if property:
+            random_properties.append({
+                'ID': property.id,
+                'Address': property.Address,
+                'Status': property.Status,
+                'Listing Price': property.ListingPrice,
+                'Square Ft': property.SquareFt,
+                'Year Built': property.YearBuilt,
+                'Beds': property.Beds,
+                'Baths': property.Baths,
+                'Days On Site': property.DaysOnSite,
+                'Latitude': property.Latitude,
+                'Longitude': property.Longitude,
+                'URL': property.URL,
+                'House Image': property.HouseImage,
+                'Google Map Image': property.GoogleMapImage
+            })
     
     return render_template('home.html', username=username, random_properties=random_properties)
 
@@ -92,8 +115,6 @@ def home():
 def search():
     results = []
     if request.method == 'POST':
-        df = pd.read_csv(CSV_FILE)
-        
         # Retrieve form data
         min_price = request.form.get('min_price')
         max_price = request.form.get('max_price')
@@ -105,39 +126,52 @@ def search():
         days_on_site = request.form.get('days_on_site')
         status = request.form.get('status')
         advanceSearch = request.form.get('advanceSearch')
-        
-        if min_price:
-            df = df[df['Listing Price'] >= float(min_price)]
-        if max_price:
-            df = df[df['Listing Price'] <= float(max_price)]
-            
-        if beds.isdigit():
-            df = df[df['Beds'] >= float(beds)]
-                
-        if baths.isdigit():
-            df = df[df['Baths'] >= float(baths)]
-                
-        if min_year_built:
-            df = df[df['Year Built'] >= int(min_year_built)]
-        if max_year_built:
-            df = df[df['Year Built'] <= int(max_year_built)]
-            
-        if square_ft.isdigit():
-            df = df[df['Square Ft'] >= int(square_ft)]
-        
-        if days_on_site.isdigit():
-            if (int(days_on_site) == 12):
-                df = df[df['Days on Site'] <= int(365)]
-            else:
-                df = df[df['Days on Site'] <= int(days_on_site * 30)]
-                
-        if status != 'Any':
-            df = df[df['Status'] == status]
-            
-        if advanceSearch:
-            df = df[df['Address'] == advanceSearch]
 
-        results = df.to_dict(orient='records')
+        # Build the query based on the form data
+        query = Properties.query
+        if min_price:
+            query = query.filter(Properties.ListingPrice >= float(min_price))
+        if max_price:
+            query = query.filter(Properties.ListingPrice <= float(max_price))
+        if beds.isdigit():
+            query = query.filter(Properties.Beds >= float(beds))
+        if baths.isdigit():
+            query = query.filter(Properties.Baths >= float(baths))
+        if min_year_built:
+            query = query.filter(Properties.YearBuilt >= int(min_year_built))
+        if max_year_built:
+            query = query.filter(Properties.YearBuilt <= int(max_year_built))
+        if square_ft.isdigit():
+            query = query.filter(Properties.SquareFt >= int(square_ft))
+        if days_on_site.isdigit():
+            if int(days_on_site) == 12:
+                query = query.filter(Properties.DaysOnSite <= 365)
+            else:
+                query = query.filter(Properties.DaysOnSite <= int(days_on_site * 30))
+        if status != 'Any':
+            query = query.filter(Properties.Status == status)
+        if advanceSearch:
+            query = query.filter(Properties.Address.like(f'%{advanceSearch}%'))
+
+        # Execute the query and convert the results to a list of dictionaries
+        results = [
+            {
+                'ID': property.id,
+                'Address': property.Address,
+                'Status': property.Status,
+                'Listing Price': property.ListingPrice,
+                'Square Ft': property.SquareFt,
+                'Year Built': property.YearBuilt,
+                'Beds': property.Beds,
+                'Baths': property.Baths,
+                'Days On Site': property.DaysOnSite,
+                'Latitude': property.Latitude,
+                'Longitude': property.Longitude,
+                'URL': property.URL,
+                'House Image': property.HouseImage,
+                'Google Map Image': property.GoogleMapImage
+            } for property in query.all()
+        ]
         results_count = len(results)
         return render_template('search.html', results=results, results_count=results_count)
     return redirect(url_for('home'))
@@ -158,13 +192,13 @@ def addToFav():
             # Retrieve the existing favorites string or initialize it if it's None
             favorites = user.favorites or ''
             
-            # Split the favorites string into a list of property IDs
-            favorite_ids = favorites.split(',') if favorites else []
-            
             # Check if the property ID is already in the favorites
-            if property_id not in favorite_ids:
+            if property_id not in favorites.split(','):
                 # Add the property ID to the favorites string
-                favorites += property_id + ','
+                if favorites:
+                    favorites += ',' + property_id
+                else:
+                    favorites = property_id
                 
                 # Update the favorites column in the database
                 user.favorites = favorites
@@ -216,22 +250,32 @@ def removeFromFav():
 def favorites():
     # Get the username from the session
     username = session.get('username')
-    
     user = Login.query.filter_by(username=username).first()
-        
     if user:
         # Split the favorites string into a list of property IDs
-        favorite_ids = user.favorites.split(',') if user.favorites else []
-        
+        favorite_ids = [int(id) for id in user.favorites.split(',') if id.isdigit()] if user.favorites else []
+
         # Query the database to get the details of the favorite properties
         favorite_properties = []
-        property_data = pd.read_csv(CSV_FILE)
         for property_id in favorite_ids:
-            if property_id.isdigit():
-                filtered_data = property_data[property_data['ID'] == int(property_id)]
-                if not filtered_data.empty:  # Check if any property matches the ID
-                    favorite_properties.extend(filtered_data.to_dict(orient='records'))
-        
+            property = db.session.get(Properties, property_id)
+            if property:
+                favorite_properties.append({
+                    'ID': property.id,
+                    'Address': property.Address,
+                    'Status': property.Status,
+                    'Listing Price': property.ListingPrice,
+                    'Square Ft': property.SquareFt,
+                    'Year Built': property.YearBuilt,
+                    'Beds': property.Beds,
+                    'Baths': property.Baths,
+                    'Days On Site': property.DaysOnSite,
+                    'Latitude': property.Latitude,
+                    'Longitude': property.Longitude,
+                    'URL': property.URL,
+                    'House Image': property.HouseImage,
+                    'Google Map Image': property.GoogleMapImage
+                })
         return render_template('favorites.html', favorite_properties=favorite_properties)
     
 @app.route('/settings', methods=['GET', 'POST'])
