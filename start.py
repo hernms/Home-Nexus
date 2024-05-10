@@ -36,6 +36,7 @@ class Properties(db.Model):
 def start():
     return redirect(url_for('login'))
 
+# Not apart of the app, just to demonstrate that the code has hash passwords
 def print_login_table():
     logins = Login.query.all()
     print("Login Table:")
